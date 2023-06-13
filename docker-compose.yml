@@ -1,0 +1,31 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: ./backend_ga_SERVO
+      dockerfile: Dockerfile
+      args:
+        - MONGO_URI=${MONGO_URI}
+        - JWT_SECRET=${JWT_SECRET}
+        - PORT=${BACKEND_PORT}
+        - GITHUB_USER=${GITHUB_USER}
+        - GITHUB_PASSWORD=${GITHUB_PASSWORD}
+        - FRONTEND_URL=${FRONTEND_URL}
+    ports:
+      - ${BACKEND_PORT}:${BACKEND_PORT}
+    env_file: .env
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend_ga_SERVO
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=${FRONTEND_API_URL}
+        - GITHUB_USER=${GITHUB_USER}
+        - GITHUB_PASSWORD=${GITHUB_PASSWORD}
+    ports:
+      - ${FRONTEND_PORT}:${FRONTEND_PORT}
+    depends_on:
+      - backend
+    env_file: .env
