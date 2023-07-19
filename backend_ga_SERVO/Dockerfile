@@ -6,6 +6,7 @@ ARG PORT
 ARG GITHUB_USER
 ARG GITHUB_PASSWORD
 ARG FRONTEND_URL
+ARG BACKEND_GITHUB_URL
 
 WORKDIR /backend
 
@@ -15,7 +16,7 @@ RUN apt-get update && \
 
 # Clonar el repositorio utilizando las credenciales de Github en el archivo .netrc
 RUN echo "machine github.com login $GITHUB_USER password $GITHUB_PASSWORD" >> ~/.netrc && \
-    git clone https://github.com/Nepu-dev/backend_ga_SERVO.git .
+    git clone $BACKEND_GITHUB_URL .
 
 # Instalar dependencias
 RUN npm install
